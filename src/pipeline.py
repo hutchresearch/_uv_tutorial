@@ -1,30 +1,22 @@
-"""
-main class for building a DL pipeline.
-
-"""
-
 from accelerate import Accelerator
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
 from data import GenericDataset
 from model.linear import DNN
 from runner import Runner
-import click
+import skeletonkey as sk
+
+from pathlib import Path
 
 
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
-def train():
+@sk.unlock(str(Path(__file__).parent.parent / 'configs/config.yaml'))
+def main(cfg):
 
     # Initialize hyperparameters
-    hidden_size = 128
-    epochs = 1000
-    batch_size = 10
-    lr = 0.001
+    hidden_size = cfg.hidden_size
+    epochs = cfg.epochs
+    batch_size = cfg.batch_size
+    lr = cfg.lr
 
     # Accelerator is in charge of auto casting tensors to the appropriate GPU device
     accelerator = Accelerator()
@@ -58,4 +50,4 @@ def train():
 
 
 if __name__ == "__main__":
-    cli()
+    main()
