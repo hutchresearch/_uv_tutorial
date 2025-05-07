@@ -1,5 +1,3 @@
-CONDA_ENV=ml_pipeline
-
 all: run
 
 run:
@@ -12,4 +10,4 @@ batch:
 	python src/batch.py
 
 install:
-	conda env updates -n ${CONDA_ENV} --file environment.yml
+	uv sync
