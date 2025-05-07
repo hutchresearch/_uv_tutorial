@@ -3,7 +3,6 @@ import numpy as np
 import einops
 import csv
 import torch
-import click
 
 
 SAMPLES = 500
@@ -63,25 +62,11 @@ class FashionDataset(Dataset):
             return (images, classes)
 
 
-@click.group()
-def cli():
-    ...
 
-
-@cli.command()
-def main():
+if __name__ == "__main__":
     path = "fashion-mnist_train.csv"
     dataset = FashionDataset(path=path)
     print(f"len: {len(dataset)}")
     print(f"first shape: {dataset[0][0].shape}")
     mean = einops.reduce(dataset[:10], "n w h -> w h", "mean")
     print(f"mean shape: {mean.shape}")
-
-
-@cli.command()
-def generic():
-    dataset = GenericDataset()
-
-
-if __name__ == "__main__":
-    cli()
